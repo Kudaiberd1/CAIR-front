@@ -5,32 +5,40 @@ import {login} from "../model/api.ts";
 import {EyeIcon, EyeOffIcon} from "../../../6_shared/ui/icons/EyeIcon.tsx";
 import {loginSchema} from "../lib/Validators.ts";
 import { z } from "zod";
+import {showError, showSuccess} from "../../../6_shared/ui/toast/index.ts";
 
 const LoginForm = () => {
 
     const [ username, setUsername ] = useState("");
     const [ password, setPassword ] = useState("");
-    const [ error, setError ] = useState("");
+    const [ error, setError ] = useState({username: "", password: ""});
     const [showPassword, setShowPassword] = useState(false);
     const { setUser } = useUserStore();
 
+
+    //Submit form
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
             await loginSchema.parseAsync({ username: username, password: password});
             const data = await login(username, password);
             setUser({username, token: data.token});
-            alert("Logged in successfully!");
+            setError({username: "", password: ""});
+            showSuccess("Logged in successfully!")
         } catch (err) {
             if(err instanceof z.ZodError){
-                setError(err.issues);
+                const er = err.issues;
+                if(er[0].path[0]=="username" && er[1].path[0]=="password") setError({...error, username: er[0].message, password: er[1].message});
+                else if(er[0].path[0]=="password") setError({username: "", password: er[0].message});
+                else if(er[0].path[0]=="username") setError({password: "", username: er[0].message});
             }else{
-                setError("❌ Invalid email or password");
+                setError({username: "", password: ""});
+                showError("Invalid email or password");
             }
         }
-        console.log(error);
     }
 
+    //for password eye icon
     const toggleShow = () => setShowPassword((v) => !v);
 
     return(
@@ -40,10 +48,12 @@ const LoginForm = () => {
             </h1>
             <form onSubmit={handleSubmit}>
                 <p className={"pb-2 text-[18px]"}> Email Address </p>
-                <input className={"border dark:border-white p-5 rounded-2xl w-[550px] mb-12"}
+                <input className={"border dark:border-white p-5 rounded-2xl w-[550px]"}
                        placeholder={"230107142@sdu.edu.kz"}
                        onChange={(e) => setUsername(e.target.value)}
                 />
+                {error.username && <p className="text-red-400 text-sm mt-2">{error.username}</p>}
+                <p className={"mb-12"}> </p>
                 <p className={"pb-2 text-[18px]"}> Password </p>
                 <div className="relative w-[550px] mb-3">
                     <input
@@ -68,6 +78,7 @@ const LoginForm = () => {
                         )}
                     </button>
                 </div>
+                {error.password && <p className="text-red-400 text-sm">{error.password}</p>}
             </form>
             <p className={"flex text-[18px] justify-end mb-15 underline"}> Forgot password? </p>
             <Button content={"Login"} width={"w-[550px]"} color={"White"} icon={null} onClick={handleSubmit} />
