@@ -1,4 +1,3 @@
-import {Button} from "../../../6_shared/ui/Button.tsx";
 import icon from "../../../assets/Frame.svg"
 import LoginForm from "../../../3_features/auth/ui/LoginForm.tsx";
 
