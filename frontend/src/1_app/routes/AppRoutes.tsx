@@ -1,11 +1,11 @@
+import { Routes, Route } from "react-router-dom";
+import LoginPage from "../../2_pages/login/ui/LoginPage.tsx";
+
 const AppRoutes = () => {
   return (
-    <>
-      <p className="border rounded max-w-xl mx-auto text-center mt-[200px] text-3xl">
-        {" "}
-        AILab project tracker!{" "}
-      </p>
-    </>
+      <Routes>
+          <Route path="/login" element={<LoginPage />} />
+      </Routes>
   );
 };
 
