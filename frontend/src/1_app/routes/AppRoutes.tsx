@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "../../2_pages/login/ui/LoginPage.tsx";
-import Dashboard from "../../2_pages/dashboard/ui/Dashboard.tsx";
+import DashboardLayout from "../../2_pages/dashboard/ui/DashboardLayout.tsx";
 import ProtectedRoute from "../../6_shared/lib/ProtectedRoute.tsx";
 
 const AppRoutes = () => {
@@ -8,7 +8,7 @@ const AppRoutes = () => {
       <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route element={<ProtectedRoute />}>
-              <Route path={"/"} element={<Dashboard />} />
+              <Route path={"/"} element={<DashboardLayout />} />
           </Route>
       </Routes>
   );

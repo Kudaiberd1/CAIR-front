@@ -1,5 +1,5 @@
 import icon from "../../../assets/Frame.svg"
-import LoginForm from "../../../3_features/auth/ui/LoginForm.tsx";
+import LoginForm from "../../../4_features/auth/ui/LoginForm.tsx";
 
 const LoginPage = () => {
     return(
