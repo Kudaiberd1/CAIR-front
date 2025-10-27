@@ -5,7 +5,8 @@ import {login} from "../model/api.ts";
 import {EyeIcon, EyeOffIcon} from "../../../6_shared/ui/icons/EyeIcon.tsx";
 import {loginSchema} from "../lib/Validators.ts";
 import { z } from "zod";
-import {showError, showSuccess} from "../../../6_shared/ui/toast/index.ts";
+import {showError, showSuccess} from "../../../6_shared/ui/toast";
+import {useNavigate} from "react-router-dom";
 
 const LoginForm = () => {
 
@@ -15,6 +16,7 @@ const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { setUser } = useUserStore();
 
+    const navigate = useNavigate();
 
     //Submit form
     const handleSubmit = async (e: React.FormEvent) => {
@@ -22,9 +24,10 @@ const LoginForm = () => {
         try {
             await loginSchema.parseAsync({ username: username, password: password});
             const data = await login(username, password);
-            setUser({username, token: data.token});
+            setUser({username, token: data});
             setError({username: "", password: ""});
-            showSuccess("Logged in successfully!")
+            showSuccess("Logged in successfully!");
+            navigate("/");
         } catch (err) {
             if(err instanceof z.ZodError){
                 const er = err.issues;
@@ -69,7 +72,7 @@ const LoginForm = () => {
                         type="button"
                         onClick={toggleShow}
                         aria-label={showPassword ? "Hide password" : "Show password"}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-200"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-white hover:text-gray-200"
                     >
                         {showPassword ? (
                             <EyeOffIcon className="w-5 h-5" />
