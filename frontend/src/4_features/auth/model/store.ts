@@ -7,13 +7,13 @@ interface User {
     token: string;
 }
 
-interface UserStore {
+interface LoginStore {
     user: User | null;
     setUser: (user: User) => void;
     logout: () => void;
 }
 
-export const useUserStore = create<UserStore>()(
+export const useLoginStore = create<LoginStore>()(
     persist(
         (set) => ({
             user: null,

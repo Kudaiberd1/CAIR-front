@@ -1,6 +1,6 @@
 import {Button} from "../../../6_shared/ui/Button.tsx";
 import {useState} from "react";
-import {useUserStore} from "../model/store.ts";
+import {useLoginStore} from "../model/store.ts";
 import {login} from "../model/api.ts";
 import {EyeIcon, EyeOffIcon} from "../../../6_shared/ui/icons/EyeIcon.tsx";
 import {loginSchema} from "../lib/Validators.ts";
@@ -14,7 +14,7 @@ const LoginForm = () => {
     const [ password, setPassword ] = useState("");
     const [ error, setError ] = useState({username: "", password: ""});
     const [showPassword, setShowPassword] = useState(false);
-    const { setUser } = useUserStore();
+    const { setUser } = useLoginStore();
 
     const navigate = useNavigate();
 
