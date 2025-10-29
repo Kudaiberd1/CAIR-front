@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import type {User} from "../../5_entities/user/model/type.ts";
-import userInfo from "../../4_features/projects/model/api.ts";
-import {useUserStore} from "../../4_features/projects/model/store.ts";
+import userInfo from "../../4_features/user/model/api.ts";
+import {useUserStore} from "../../4_features/user/model/store.ts";
 import {useNavigate} from "react-router-dom";
 
 const UserMenu = () => {
